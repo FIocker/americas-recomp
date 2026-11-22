@@ -53,6 +53,8 @@ def main():
                         help="also test a device with geometryShader=false")
     args = parser.parse_args()
     runner = args.exec.resolve()
+    if not runner.is_file() and runner.with_suffix(".exe").is_file():
+        runner = runner.with_suffix(".exe")
     if not runner.is_file():
         parser.error("provide a built --exec runner")
 

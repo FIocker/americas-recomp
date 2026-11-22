@@ -64,6 +64,8 @@ def main():
     parser.add_argument("--exec", type=Path,
                         default=Path(__file__).resolve().parents[2] / "build-xbox" / "exec.exe")
     runner = parser.parse_args().exec.resolve()
+    if not runner.is_file() and runner.with_suffix(".exe").is_file():
+        runner = runner.with_suffix(".exe")
     compiler = shutil.which("glslangValidator")
     if not runner.is_file() or compiler is None:
         parser.error("provide a built --exec runner and put glslangValidator on PATH")

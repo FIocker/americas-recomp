@@ -105,6 +105,8 @@ def main():
     parser.add_argument("--exec", type=Path,
                         default=Path(__file__).resolve().parents[2] / "build-xbox" / ("exec.exe" if os.name == "nt" else "exec"))
     runner = parser.parse_args().exec.resolve()
+    if not runner.is_file() and runner.with_suffix(".exe").is_file():
+        runner = runner.with_suffix(".exe")
     if not runner.is_file():
         parser.error(f"missing {runner}; build the harness first")
     fused_env = {k: v for k, v in os.environ.items() if k != "XBOX_NO_FUSED_LEGACY_MAD"}

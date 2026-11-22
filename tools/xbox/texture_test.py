@@ -97,6 +97,8 @@ def main():
     parser.add_argument("--bilinear", action="store_true", help="request guest linear min/mag filtering")
     args = parser.parse_args()
     runner = args.exec.resolve()
+    if not runner.is_file() and runner.with_suffix(".exe").is_file():
+        runner = runner.with_suffix(".exe")
     filter_word = (1 << 20) | (1 << 22) if args.bilinear else 0
     compiler = shutil.which("glslangValidator")
     if not runner.is_file() or compiler is None:
